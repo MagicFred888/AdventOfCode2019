@@ -5,6 +5,34 @@ namespace AdventOfCode2019.Tools;
 
 public static class SmallTools
 {
+    public static List<List<int>> GeneratePermutations(int totalItems)
+    {
+        var result = new List<List<int>>();
+        GeneratePermutationsRecursive(0, totalItems, [], result, new bool[totalItems]);
+        return result;
+    }
+
+    private static void GeneratePermutationsRecursive(int depth, int totalItems, List<int> currentPermutation, List<List<int>> result, bool[] used)
+    {
+        if (depth == totalItems)
+        {
+            result.Add(new List<int>(currentPermutation));
+            return;
+        }
+
+        for (int i = 0; i < totalItems; i++)
+        {
+            if (!used[i])
+            {
+                used[i] = true;
+                currentPermutation.Add(i);
+                GeneratePermutationsRecursive(depth + 1, totalItems, currentPermutation, result, used);
+                currentPermutation.RemoveAt(currentPermutation.Count - 1);
+                used[i] = false;
+            }
+        }
+    }
+
     public static List<List<int>> GenerateCombinations(int totalItems, int itemsNeeded)
     {
         var result = new List<List<int>>();
