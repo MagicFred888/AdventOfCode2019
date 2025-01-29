@@ -48,12 +48,12 @@ public class QuickGrid
         MaxX = xMax;
         MinY = yMin;
         MaxY = yMax;
-        NbrRow = yMax - yMin + 1;
-        NbrCol = xMax - xMin + 1;
+        NbrRow = MaxY - MinY + 1;
+        NbrCol = MaxX - MinX + 1;
 
-        for (int x = xMin; x <= xMax; x++)
+        for (int x = MinX; x <= MaxX; x++)
         {
-            for (int y = yMin; y <= yMax; y++)
+            for (int y = MinY; y <= MaxY; y++)
             {
                 _allCells.Add(new(x, y), new(new(x, y), defaultValue));
             }
@@ -66,14 +66,31 @@ public class QuickGrid
         MaxX = xMax;
         MinY = yMin;
         MaxY = yMax;
-        NbrRow = yMax - yMin + 1;
-        NbrCol = xMax - xMin + 1;
+        NbrRow = MaxY - MinY + 1;
+        NbrCol = MaxX - MinX + 1;
 
-        for (int x = xMin; x <= xMax; x++)
+        for (int x = MinX; x <= MaxX; x++)
         {
-            for (int y = yMin; y <= yMax; y++)
+            for (int y = MinY; y <= MaxY; y++)
             {
                 _allCells.Add(new(x, y), new(new(x, y), defaultValue));
+            }
+        }
+    }
+
+    public QuickGrid(List<Point> knownCells, string knowntValue, string unknowntValue)
+    {
+        MinX = knownCells.Min(p => p.X);
+        MaxX = knownCells.Max(p => p.X);
+        MinY = knownCells.Min(p => p.Y);
+        MaxY = knownCells.Max(p => p.Y);
+
+        for (int x = MinX; x <= MaxX; x++)
+        {
+            for (int y = MinY; y <= MaxY; y++)
+            {
+                Point position = new(x, y);
+                _allCells.Add(position, new(position, knownCells.Contains(position) ? knowntValue : unknowntValue));
             }
         }
     }
