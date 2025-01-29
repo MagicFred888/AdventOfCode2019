@@ -95,6 +95,23 @@ public class QuickGrid
         }
     }
 
+    public QuickGrid(Dictionary<Point, string> knownCells, string unknowntValue)
+    {
+        MinX = knownCells.Min(p => p.Key.X);
+        MaxX = knownCells.Max(p => p.Key.X);
+        MinY = knownCells.Min(p => p.Key.Y);
+        MaxY = knownCells.Max(p => p.Key.Y);
+
+        for (int x = MinX; x <= MaxX; x++)
+        {
+            for (int y = MinY; y <= MaxY; y++)
+            {
+                Point position = new(x, y);
+                _allCells.Add(position, new(position, knownCells.TryGetValue(position, out string? value) ? value : unknowntValue));
+            }
+        }
+    }
+
     public CellInfo Cell(Point position) => Cell(position.X, position.Y);
 
     public CellInfo Cell(int x, int y)
