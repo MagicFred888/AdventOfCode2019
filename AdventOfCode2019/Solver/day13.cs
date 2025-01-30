@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using AdventOfCode2019.Tools;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace AdventOfCode2019.Solver;
 
@@ -40,6 +42,7 @@ internal partial class Day13 : BaseSolver
     {
         int score = 0;
         _GameField.Clear();
+        bool withVizualization = false; // Set to true to see the game
         ShipComputer shipComputer = new(string.Concat("2", _puzzleInput[0].AsSpan(1)))
         {
             PauseAfterXOutputNbr = 3
@@ -55,10 +58,12 @@ internal partial class Day13 : BaseSolver
                     // Update score
                     score = (int)shipComputer.Output.Dequeue();
 
-                    // Uncomment if you want see the game in Output window
-                    //Debug.WriteLine($"Score: {(int)shipComputer.Output.Dequeue()}");
-                    //QuickGrid game = new QuickGrid(_GameField, " ");
-                    //game.DebugPrint(CellInfoContentType.String);
+                    if (withVizualization)
+                    {
+                        Debug.WriteLine($"Score: {(int)shipComputer.Output.Dequeue()}");
+                        QuickGrid game = new(_GameField, " ");
+                        game.DebugPrint(CellInfoContentType.String);
+                    }
                 }
                 else
                 {

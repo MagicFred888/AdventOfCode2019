@@ -22,7 +22,7 @@ internal partial class Day12 : BaseSolver
             Match match = CoordinateExtractionRegex().Match(rawData);
             if (!match.Success)
             {
-                throw new Exception("Invalid input data");
+                throw new InvalidDataException("Invalid input data");
             }
             Position = [int.Parse(match.Groups["x"].Value), int.Parse(match.Groups["y"].Value), int.Parse(match.Groups["z"].Value)];
             Velocity = [0, 0, 0];
