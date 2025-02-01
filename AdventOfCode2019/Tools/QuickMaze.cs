@@ -1,5 +1,6 @@
 ﻿using AdventOfCode2019.Extensions;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AdventOfCode2019.Tools;
@@ -178,13 +179,13 @@ public static class QuickMaze
         int cols = maze.ColCount;
 
         long[,] distances = new long[cols, rows];
-        for (int i = 0; i < cols; i++)
-        {
-            for (int j = 0; j < rows; j++)
-            {
-                distances[i, j] = -1; // Initialize distances to -1 (unreachable)
-            }
-        }
+
+        // Get a reference to the first element
+        ref long firstElement = ref distances[0, 0];
+
+        // Treat the 2D array as a flat memory block
+        var span = MemoryMarshal.CreateSpan(ref firstElement, cols * rows);
+        span.Fill(-1);
 
         int[] dRow = [-1, 1, 0, 0];
         int[] dCol = [0, 0, -1, 1];

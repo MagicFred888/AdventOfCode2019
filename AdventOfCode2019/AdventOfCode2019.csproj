@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\Day18\Sample9_X_72.txt" />
     <None Remove="README.md" />
   </ItemGroup>
 

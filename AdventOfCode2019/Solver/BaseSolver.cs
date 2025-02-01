@@ -156,7 +156,14 @@ internal abstract partial class BaseSolver
         _stopwatch.Restart();
         string answer = roundId == RoundId.FirstRound ? GetSolution1(true) : GetSolution2(true);
         _stopwatch.Stop();
-        resultString = $"{answer} found in {GetProperUnitAndRounding(_stopwatch.Elapsed.TotalMilliseconds)}";
+        if (string.IsNullOrEmpty(answer))
+        {
+            resultString = $"CHALLENGE {(roundId == RoundId.FirstRound ? 1 : 2)} HAS BEEN SKIPPED !";
+        }
+        else
+        {
+            resultString = $"{answer} found in {GetProperUnitAndRounding(_stopwatch.Elapsed.TotalMilliseconds)}";
+        }
         return true;
     }
 
