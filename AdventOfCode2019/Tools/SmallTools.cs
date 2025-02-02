@@ -107,6 +107,16 @@ public static class SmallTools
     }
 
     /// <summary>
+    /// Determines if a given number is a prime number.
+    /// </summary>
+    /// <param name="number">The number to check for primality.</param>
+    /// <returns>True if the number is prime, otherwise false.</returns>
+    public static bool IsPrime(long number)
+    {
+        return PrimeDecomposition(number).Count == 1;
+    }
+
+    /// <summary>
     /// Decomposes a given integer into its prime factors.
     /// </summary>
     /// <param name="number">The integer to decompose.</param>
@@ -116,13 +126,17 @@ public static class SmallTools
         // Decompose v into prime factors
         List<long> factors = [];
         long n = number;
-        for (long i = 2; i <= n; i++)
+        for (long i = 2; i * i <= n; i++)
         {
             while (n % i == 0)
             {
                 factors.Add(i);
                 n /= i;
             }
+        }
+        if (n > 1)
+        {
+            factors.Add(n);
         }
         return factors;
     }
