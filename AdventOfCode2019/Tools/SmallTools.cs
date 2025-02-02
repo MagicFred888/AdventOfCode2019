@@ -5,6 +5,12 @@ namespace AdventOfCode2019.Tools;
 
 public static class SmallTools
 {
+    /// <summary>
+    /// Generates all permutations of a given number of items.
+    /// Example: For totalItems = 3, it generates [0,1,2], [0,2,1], [1,0,2], [1,2,0], [2,0,1], [2,1,0].
+    /// </summary>
+    /// <param name="totalItems">The total number of items to permute.</param>
+    /// <returns>A list of all permutations.</returns>
     public static List<List<int>> GeneratePermutations(int totalItems)
     {
         var result = new List<List<int>>();
@@ -33,6 +39,13 @@ public static class SmallTools
         }
     }
 
+    /// <summary>
+    /// Generates all combinations of a given number of items taken a specified number at a time.
+    /// Example: For totalItems = 4 and itemsNeeded = 2, it generates [0,1], [0,2], [0,3], [1,2], [1,3], [2,3].
+    /// </summary>
+    /// <param name="totalItems">The total number of items to choose from.</param>
+    /// <param name="itemsNeeded">The number of items to choose in each combination.</param>
+    /// <returns>A list of all combinations.</returns>
     public static List<List<int>> GenerateCombinations(int totalItems, int itemsNeeded)
     {
         var result = new List<List<int>>();
@@ -56,6 +69,13 @@ public static class SmallTools
         }
     }
 
+    /// <summary>
+    /// Generates all combinations of numbers that sum up to a target value.
+    /// Example: For numbers = [2,3,6,7] and targetValue = 7, it generates [7], [2,2,3].
+    /// </summary>
+    /// <param name="numbers">The list of numbers to choose from.</param>
+    /// <param name="targetValue">The target sum value.</param>
+    /// <returns>A list of all combinations that sum up to the target value.</returns>
     public static List<List<long>> GenerateCombinationsMatchingTotal(List<long> numbers, long targetValue)
     {
         List<List<long>> result = [];
@@ -65,21 +85,19 @@ public static class SmallTools
 
     private static void GenerateCombinations(List<long> numbers, long targetValue, List<long> currentCombination, List<List<long>> results, int startIndex)
     {
-        // If target sum is reached, add the current combination to results
         if (targetValue == 0)
         {
             results.Add(new List<long>(currentCombination));
             return;
         }
 
-        // Iterate through the array and recursively find combinations
         for (int i = startIndex; i < numbers.Count; i++)
         {
-            if (numbers[i] <= targetValue) // Only consider numbers that don't exceed the target
+            if (numbers[i] <= targetValue)
             {
                 currentCombination.Add(numbers[i]);
-                GenerateCombinations(numbers, targetValue - numbers[i], currentCombination, results, i + 1); // Move to the next index
-                currentCombination.RemoveAt(currentCombination.Count - 1); // Backtrack
+                GenerateCombinations(numbers, targetValue - numbers[i], currentCombination, results, i + 1);
+                currentCombination.RemoveAt(currentCombination.Count - 1);
             }
         }
     }
@@ -123,7 +141,6 @@ public static class SmallTools
     /// <returns>A list of prime factors of the given integer.</returns>
     public static List<long> PrimeDecomposition(long number)
     {
-        // Decompose v into prime factors
         List<long> factors = [];
         long n = number;
         for (long i = 2; i * i <= n; i++)
@@ -149,7 +166,6 @@ public static class SmallTools
     /// <returns>The sum of factors of the given number.</returns>
     public static long SumOfFactors(long number)
     {
-        // Decompose v into prime factors
         List<long> primeFactor = SmallTools.PrimeDecomposition(number);
         return primeFactor.Aggregate(1L, (acc, val) => acc * (long)((Math.Pow(val, 2) - 1) / (val - 1)));
     }
@@ -162,7 +178,6 @@ public static class SmallTools
     /// <param name="missing">The string to use if a value is missing in the dictionary.</param>
     public static void DebugPrint(object[,] tmpTable, Dictionary<string, string> convDic, string missing)
     {
-        // To visualize Matrix
         Debug.WriteLine("");
         for (long y = 0; y <= tmpTable.GetUpperBound(1); y++)
         {
@@ -201,7 +216,6 @@ public static class SmallTools
     /// <param name="tmpTable">The 2D array of characters to print.</param>
     public static void DebugPrint(char[,] tmpTable)
     {
-        // To visualize Matrix
         Debug.WriteLine("");
         for (long y = 0; y <= tmpTable.GetUpperBound(1); y++)
         {
